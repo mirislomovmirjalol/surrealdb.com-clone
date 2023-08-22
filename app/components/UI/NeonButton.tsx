@@ -25,6 +25,7 @@ const NeonButton = (props: NeonButtonProps) => {
             radius="full"
             variant="shadow"
             size={props.size ? props.size : "md"}
+            onClick={props.onClick}
         >
             {props.title ? props.title : null}
                 {props.children}
