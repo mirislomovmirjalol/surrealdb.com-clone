@@ -1,6 +1,10 @@
 "use client"
 import React from "react";
 import {
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
     Navbar,
     NavbarBrand,
     NavbarContent,
@@ -16,7 +20,49 @@ import WaitingListModal from "@/app/components/UI/WaitingListModal";
 
 type MenuListType = {
     title: string
-    path: string
+    path?: string
+    menuItems?: MenuListType[]
+    description?: string,
+}
+
+type NavDropdownMenuProps = {
+    menuItems: MenuListType[]
+    item: MenuListType
+}
+
+const NavDropdownMenu = (props: NavDropdownMenuProps) => {
+    return (
+        <Dropdown
+            backdrop="blur"
+        >
+            <DropdownTrigger>
+                <NavbarItem>
+                    {props.item.title &&
+                        <NavLink href={"#"}>
+                            {props.item.title}
+                        </NavLink>
+                    }
+                </NavbarItem>
+            </DropdownTrigger>
+            <DropdownMenu
+                variant="faded" aria-label="Dropdown menu with description"
+                className="md:w-[600px] bg-base-200 rounded-xl p-2 grid grid-cols-2 gap-2"
+                itemClasses={{
+                    base: "gap-4",
+                }}
+            >
+                {props.menuItems.map((item, index) => (
+                    <DropdownItem
+                        className="p-4"
+                        key={index}
+                        description={item.description}
+                    >
+                        {item.title}
+                    </DropdownItem>
+                ))}
+            </DropdownMenu>
+        </Dropdown>
+    )
 }
 
 export default function NavigationBar() {
@@ -36,7 +82,28 @@ export default function NavigationBar() {
         },
         {
             title: "Product",
-            path: "/product",
+            menuItems: [
+                {
+                    title: "Community",
+                    path: "/community",
+                    description: "Join the community and get help from other users.",
+                },
+                {
+                    title: "product",
+                    path: "/product",
+                    description: "bla kjsadjfla klsdjfj asjljsdkf"
+                },
+                {
+                    title: "Community",
+                    path: "/community",
+                    description: "Join the community and get help from other users.",
+                },
+                {
+                    title: "product",
+                    path: "/product",
+                    description: "bla kjsadjfla klsdjfj asjljsdkf"
+                },
+            ]
         },
         {
             title: "Docs",
@@ -59,11 +126,18 @@ export default function NavigationBar() {
 
             <NavbarContent className="hidden lg:flex gap-2" justify="end">
                 {menuItems.map((item, index) => (
-                    <NavbarItem key={index}>
-                        <NavLink href={item.path}>
-                            {item.title}
-                        </NavLink>
-                    </NavbarItem>
+                    item.menuItems ?
+                        <NavDropdownMenu menuItems={item.menuItems} item={item} key={index}/>
+                        :
+                        <NavbarItem key={index}>
+                            {item.path &&
+                                <NavLink
+                                    href={item.path}
+                                >
+                                    {item.title}
+                                </NavLink>
+                            }
+                        </NavbarItem>
                 ))}
                 <NavbarItem>
                     <NeonButton variant={"outline"}>
@@ -87,13 +161,19 @@ export default function NavigationBar() {
             </NavbarContent>
             <NavbarMenu className="backdrop-blur-lg bg-base/30 mt-8">
                 {menuItems.map((item, index) => (
-                    <NavbarMenuItem onClick={() => setIsMenuOpen(!isMenuOpen)} className="my-1 block" key={index}>
-                        <NavLink
-                            href={item.path}
-                        >
-                            {item.title}
-                        </NavLink>
-                    </NavbarMenuItem>
+                    item.menuItems ?
+                        <NavDropdownMenu key={index} menuItems={item.menuItems} item={item}/>
+                        :
+                        (item.path &&
+                            <NavbarMenuItem key={index} onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                            className="my-1 block">
+                                <NavLink
+                                    href={item.path}
+                                >
+                                    {item.title}
+                                </NavLink>
+                            </NavbarMenuItem>
+                        )
                 ))}
             </NavbarMenu>
         </Navbar>
