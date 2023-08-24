@@ -6,7 +6,11 @@ import {SurrealLogo} from "@/app/components/UI/SurrealLogo";
 import {Input} from "@nextui-org/input";
 import NeonButton from "@/app/components/UI/NeonButton";
 
-const WaitingListModal = () => {
+type TWaitingListModalProps = {
+    title?: string,
+}
+
+const WaitingListModal = (props: TWaitingListModalProps) => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [modalPlacement, setModalPlacement] = React.useState("auto");
     return (
@@ -17,7 +21,7 @@ const WaitingListModal = () => {
                     <path strokeLinecap="round" strokeLinejoin="round"
                           d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
                 </svg>
-                Get updates
+                {props.title ? props.title : "Get updates"}
             </NeonButton>
             <Modal
                 backdrop={"blur"}
@@ -67,7 +71,7 @@ const WaitingListModal = () => {
                                 </div>
                             </ModalHeader>
                             <ModalFooter className="flex flex-col  mb-4">
-                                <NeonButton title="Kepp me updated" size="lg"/>
+                                <NeonButton onClick={onClose} title="Kepp me updated" size="lg"/>
                             </ModalFooter>
                         </>
                     )}
