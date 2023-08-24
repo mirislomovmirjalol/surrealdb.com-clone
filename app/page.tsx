@@ -5,6 +5,7 @@ import NeonButton from "@/app/components/UI/NeonButton";
 import InfoCard from "@/app/components/UI/InfoCard";
 import {contentBlocks} from "@/data";
 import ContentBlock from "@/app/components/UI/ContentBlock";
+import WaitingListModal from "@/app/components/UI/WaitingListModal";
 
 export type TInfoCard = {
     headerText?: string,
@@ -88,9 +89,7 @@ export default function Home() {
                         </svg>
                         Documentation
                     </NeonButton>
-                    <NeonButton size={"lg"}>
-                        Join cloud waitlist
-                    </NeonButton>
+                    <WaitingListModal title={"Join cloud waitlist"}/>
                 </div>
             </div>
 
